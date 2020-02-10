@@ -4,11 +4,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace DMUCarsTesting
 {
     [TestClass]
-    public class UnitTest1
+    public class tstDMUCars
     {
         [TestMethod]
-        public void TestMethod1()
+        public void InstanceOK()
         {
+            clsDMUCars AOrder = new clsDMUCars();
         }
     }
 }
