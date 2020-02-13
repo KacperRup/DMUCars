@@ -39,5 +39,30 @@ namespace DMUCarsTesting
             Assert.AreEqual(AOrder.DeliveryDate, TestData);
             
         }
+        [TestMethod]
+        public void OrderDatePropertyOK()
+        {
+            clsDMUCars AOrder = new clsDMUCars();
+            string TestData = "01/02/2020";
+            AOrder.OrderDate = TestData;
+            Assert.AreEqual(AOrder.OrderDate, TestData);
+        }
+        [TestMethod]
+        public void OrderNoPropertyOK()
+        {
+            clsDMUCars AOrder = new clsDMUCars();
+            string TestData = "123";
+            AOrder.OrderNo = TestData;
+            Assert.AreEqual(AOrder.OrderNo, TestData);
+        }
+        [TestMethod]
+        public void StaffIDPropertyOK()
+        {
+            clsDMUCars AOrder = new clsDMUCars();
+            string TestData = "STAFF01";
+            AOrder.StaffID = TestData;
+            Assert.AreEqual(AOrder.StaffID, TestData);
+
+        }
     }
 }
