@@ -8,6 +8,7 @@ EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "DMUCarsFrontOffice", "DMUCarsFrontOffice\", "{E0E01ABE-124F-4A6F-BFCD-A21C70143CD4}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.6.1"
+		ProjectReferences = "{eedfcda3-ac71-44f8-864e-fd10e7252840}|DMUCarsclasses.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_51219"
 		Debug.AspNetCompiler.PhysicalPath = "DMUCarsFrontOffice\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_51219\"
@@ -27,7 +28,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "DMUCarsFrontOffice", "DMUCa
 		DefaultWebSiteLanguage = "Visual C#"
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMUCarsclasses", "DMUCarsclasses\DMUCarsclasses.csproj", "{EEDFCDA3-AC71-44F8-864E-FD10E7252840}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMUCars-Classes", "DMUCarsclasses\DMUCars-Classes.csproj", "{EEDFCDA3-AC71-44F8-864E-FD10E7252840}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMUcarsTesting", "DMUcarsTesting\DMUcarsTesting.csproj", "{28B60E7F-C979-427B-8AB5-B87221A9FF98}"
 EndProject
