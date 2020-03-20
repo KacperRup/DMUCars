@@ -7,10 +7,15 @@
     <title></title>
 </head>
 <body>
+    <style>
+        body {
+         background-color:lightseagreen;
+        }
+    </style>
     <form id="form1" runat="server">
         <div>
             <asp:Label ID="lblCarID" runat="server" Text="CarID:"></asp:Label>
-            <asp:TextBox ID="txtCarID" runat="server"></asp:TextBox>
+            <asp:TextBox ID="txtCarID" runat="server" ReadOnly="True"></asp:TextBox>
             <br />
             <br />
             <asp:Label ID="lblCarBrand" runat="server" Text="CarBrand:"></asp:Label>
@@ -37,7 +42,7 @@
         </div>
         <p>
             <asp:Button ID="btnOK" runat="server" OnClick="btnOK_Click" Text="OK" />
-            <asp:Button ID="btnCancel" runat="server" Text="Cancel" />
+            <asp:Button ID="btnCancel" runat="server" Text="Cancel" OnClick="btnCancel_Click" />
         </p>
     </form>
 </body>
