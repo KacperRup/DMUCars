@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using DMUCarsclasses;
+using DMUCarsBackOffice;
 
 namespace DMUCarsclasses
 {
@@ -52,36 +54,14 @@ namespace DMUCarsclasses
 
         public clsStaffCollection()
         {
-            Int32 Index = 0;
-            //var to store the record count
-            Int32 RecordCount = 0;
-            //object for the data connection 
+            //object for the data connection
             clsDataConnection DB = new clsDataConnection();
-            //execute the stored procedure
+            //execute the stored proecedure
             DB.Execute("sproc_tblStaff_SelectAll");
-            //get the count of the records
-            RecordCount = DB.Count;
-            //while there are records to be process
-            while (Index < RecordCount)
-            {
-                //create a blank staff 
-                clsStaff staff = new clsStaff();
-                //read in the field from the current record
-                staff.FirstName = Convert.ToString(DB.DataTable.Rows[Index]["FirstName"]);
-                staff.LastName = Convert.ToString(DB.DataTable.Rows[Index]["LastName"]);
-                staff.MobileNo = Convert.ToString(DB.DataTable.Rows[Index]["MobileNumber"]);
-                staff.StaffID = Convert.ToInt32(DB.DataTable.Rows[Index]["StaffID"]);
-                staff.StartDate = Convert.ToDateTime(DB.DataTable.Rows[Index]["StartDate"]);
-                //add the record to the private data member
-                mStaffList.Add(staff);
-                //point at the next record
-                Index++;
-
-            }
-
+            //populate the array list with the data table
+            PopulateArray(DB);
         }
-
-
+        
 
         public int Add()
         {
@@ -93,19 +73,81 @@ namespace DMUCarsclasses
             DB.AddParameter("@LastName", mThisStaff.LastName);
             DB.AddParameter("@MobileNo", mThisStaff.MobileNo);
             DB.AddParameter("@StartDate", mThisStaff.StartDate);
-            DB.AddParameter("@StaffID", mThisStaff.StaffID);
             //execute the query returning the primary key value
             return DB.Execute("sproc_tblStaff_Insert");
         }
-        
 
+        public void Delete()
+        {
+            //delete the record pointed to by thisstaff
+            //connect to the database
+            clsDataConnection DB = new clsDataConnection();
+            //set the parameter for the stored procedure
+            DB.AddParameter("@StaffID", mThisStaff.StaffID);
+            //execute the stored procedure
+            DB.Execute("sproc_tblStaff_Delete");
+        }
 
+        public void Find()
+        {
+            clsStaffCollection staff = new clsStaffCollection();
+            staff.ThisStaff.Find(3);
+        }
 
+        public void Update()
+        {
+            //update an existing record based in the values of thisstaff
+            //connect to the database
+            clsDataConnection DB = new clsDataConnection();
+            DB.AddParameter("@FirstName", mThisStaff.FirstName);
+            DB.AddParameter("@LastName", mThisStaff.LastName);
+            DB.AddParameter("@MobileNo", mThisStaff.MobileNo);
+            DB.AddParameter("@StartDate", mThisStaff.StartDate);
+            DB.AddParameter("@StaffID", mThisStaff.StaffID);
+            //execute the stored procedure
+            DB.Execute("sproc_tblStaff_Update");
+        }
 
-        //constructor for the class
-    
+        public void ReportByLastName(string LastName)
+        {
+            //filters the record based on a full or partial staffid
+            //conect to the database
+            clsDataConnection DB = new clsDataConnection();
+            //send the Stafflastname parameter to the database
+            DB.AddParameter("@LastName", LastName);
+            //execute the stored procedure
+            DB.Execute("sproc_tblStaff_FilterByLastName");
+            //populate the array list with the data table
+            PopulateArray(DB);
+        }
+        void PopulateArray(clsDataConnection DB)
+        {
+            //populate the array list based on the data table in teh parameter DB
+
+            Int32 Index = 0;
+            //var to store the record count
+            Int32 RecordCount;
+            //get the count of the records
+            RecordCount = DB.Count;
+            //execute the stored procedure
+            mStaffList = new List<clsStaff>();
+            //while there are records to be process
+            while (Index < RecordCount)
+            {
+                //create a blank staff 
+                clsStaff AStaff = new clsStaff();
+                //read in the field from the current record
+                AStaff.StaffID = Convert.ToInt32(DB.DataTable.Rows[Index]["StaffID"]);
+                AStaff.FirstName = Convert.ToString(DB.DataTable.Rows[Index]["FirstName"]);
+                AStaff.LastName = Convert.ToString(DB.DataTable.Rows[Index]["LastName"]);
+                AStaff.MobileNo = Convert.ToString(DB.DataTable.Rows[Index]["MobileNo"]);
+                AStaff.StartDate = Convert.ToDateTime(DB.DataTable.Rows[Index]["StartDate"]);
+                //add the record to the private data member
+                mStaffList.Add(AStaff);
+                //point at the next record
+                Index++;
+            }
        
+        }
     }
-
-   
 }
