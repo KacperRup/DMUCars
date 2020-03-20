@@ -1,0 +1,276 @@
+using System;
+namespace DMUCars_Classes
+{
+    public class clsOrder
+    {
+        private Int32 mOrderNo;
+        //private data member for the customerno
+        private string mCustomerNo;
+        //privtae data for orderDate
+        private DateTime mOrderDate;
+        //private data for delviery date
+        private DateTime mDeliverydate;
+        //private data for carID
+        private string mCarID;
+        //private data for StaffID
+        private string mStaffID;
+
+        //public property for CustomerNo
+
+        public string CarID
+        {
+            get
+            {
+                return mCarID;
+            }
+            set
+            {
+                mCarID = value;
+            }
+        }
+        public string CustomerNo
+        {
+            get
+            {
+                //return the private data
+                return mCustomerNo;
+            }
+            set
+            {
+                //set the private data
+                mCustomerNo = value;
+            }
+        }
+        public DateTime DeliveryDate
+        {
+            get
+            {
+                //return the private data
+                return mDeliverydate;
+            }
+            set
+            {
+                //set the private data
+                mDeliverydate = value;
+            }
+        }
+        public DateTime OrderDate
+        {
+            get
+            {
+                return mOrderDate;
+            }
+            set
+            {
+                mOrderDate = value;
+            }
+        }
+        public int OrderNo
+        {
+            get
+            {
+                //return the private data
+                return mOrderNo;
+            }
+            set
+            {
+                //set the value of private data member
+                mOrderNo = value;
+            }
+        }
+        public string StaffID
+        {
+            get
+            {
+                //return the private data
+                return mStaffID;
+            }
+            set
+            {
+                mStaffID = value;
+            }
+        }
+
+
+        public Boolean Find (int OrderNo)
+        {
+            mOrderNo = 21;
+            mCustomerNo = "CUST001";
+            mOrderDate = Convert.ToDateTime("15/06/2015");
+            mDeliverydate = Convert.ToDateTime("25/06/2015");
+            mCarID = "xxxx";
+            mStaffID = "SomeStaffID";
+            //always return true
+            return true;
+        }
+
+-------------------------------------------------------------------------
+        public Boolean Find (int OrderNo)
+        {
+            //create an instance of the data connection
+            clsDataConnection DB = new clsDataConnection();
+            //add the parameter for the OrderNo to search for
+            DB.AddParameter("@OrderoNo", OrderNo);
+            //execute the stored procedure
+            DB.Execute("sproc_tblOrder_FilterByOrderNo");
+            //if on record is found (there should be either one or zero)
+            if (DB.Count == 1)
+            {
+                mOrderNo = Convert.ToInt32(DB.DataTable.Rows[0]["OrderNo"]);
+                mCustomerNo = Convert.ToString(DB.DataTable.Rows[0]["CustomerID"]);
+                mOrderDate = Convert.ToDateTime(DB.DataTable.Rows[0]["OrderDate"]);
+                mDeliverydate = Convert.ToDateTime(DB.DataTable.Rows[0]["DeliveryDate"]);
+                mCarID = Convert.ToString(DB.DataTable.Rows[0]["CarID"]);
+                mStaffID = Convert.ToString(DB.DataTable.Rows[0]["StaffID"]);
+                //always return true
+                return true;
+            }
+            //if no record was found
+            else
+            {
+                //return false indicating a problem
+                return false;
+            }
+
+------------------------------------------------------------------------------
+STORED PROCEDURE CODE
+
+CREATE PROCEDURE [dbo].[sproc_tblOrder_FilterByOrderNo]
+--parametere to store the order no we are looking for
+	@OrderNo int
+AS
+--select all fields from the table where the order no matches the paramter data
+	select * from tblOrder where OrderNo = @OrderNo
+
+RETURN 0
+
+------------------------------------------------------------------------------
+ADD, EDIT & DELETE
+            {
+                clsOrder SomeOrder = new clsOrder();
+                SomeOrder.Find(3);
+
+                clsOrderCollection AllOrders = new clsOrderCollection();
+                AllOrders.ThisOrder.CustomerNo = "some customer";
+                AllOrders.ThisOrder.Find(3);
+                AllOrders.Delete();
+
+                AllOrders.ThisOrder.Find(3);
+                AllOrders.ThisOrder.CustomerNo = "CUST001";
+                AllOrders.Update();
+
+                AllOrders.ThisOrder.CustomerNo = "some customer";
+                AllOrders.ThisOrder.OrderDate = DateTime.Now.Date;
+                AllOrders.ThisOrder.DeliveryDate = DateTime.Now.Date;
+                AllOrders.ThisOrder.CarID = "some carID";
+                AllOrders.ThisOrder.StaffID = "some staffID";
+                AllOrders.Add();
+            }
+-----------------------------------------------------------------------------------------
+TEST METHODS
+        public void TestCustomerNoFound()
+        {
+            //create an instance of the class we want to create
+            clsOrder AnOrder = new clsOrder();
+            //boolean varible to store the result of the search
+            Boolean Found = false;
+            //boolean variable to record if data is OK (assume it is)
+            Boolean OK = true;
+            //create some test data to use with the method
+            Int32 OrderNo = 123;
+            //invoke the method
+            Found = AnOrder.Find(OrderNo);
+            //check the OrderNo
+            if (AnOrder.CustomerNo != "Test CustomerNo")
+            {
+                OK = false;
+            }
+            //test to see the result is correct
+            Assert.IsTrue(OK);
+        }
+        [TestMethod]
+        public void TestOrderDateFound()
+        {
+            //create an instance of the class we want to create
+            clsOrder AnOrder = new clsOrder();
+            //boolean varible to store the result of the search
+            Boolean Found = false;
+            //boolean variable to record if data is OK (assume it is)
+            Boolean OK = true;
+            //create some test data to use with the method
+            Int32 OrderNo = 123;
+            //invoke the method
+            Found = AnOrder.Find(OrderNo);
+            //check the OrderNo
+            if (AnOrder.OrderDate != Convert.ToDateTime("16/06/2015"))
+            {
+                OK = false;
+            }
+            //test to see the result is correct
+            Assert.IsTrue(OK);
+        }
+        [TestMethod]
+        public void TestDeliveryDateFound()
+        {
+            //create an instance of the class we want to create
+            clsOrder AnOrder = new clsOrder();
+            //boolean varible to store the result of the search
+            Boolean Found = false;
+            //boolean variable to record if data is OK (assume it is)
+            Boolean OK = true;
+            //create some test data to use with the method
+            Int32 OrderNo = 123;
+            //invoke the method
+            Found = AnOrder.Find(OrderNo);
+            //check the OrderNo
+            if (AnOrder.DeliveryDate != Convert.ToDateTime("25/06/2015"))
+            {
+                OK = false;
+            }
+            //test to see the result is correct
+            Assert.IsTrue(OK);
+        }
+        [TestMethod]
+        public void TestCarIDFound()
+        {
+            //create an instance of the class we want to create
+            clsOrder AnOrder = new clsOrder();
+            //boolean varible to store the result of the search
+            Boolean Found = false;
+            //boolean variable to record if data is OK (assume it is)
+            Boolean OK = true;
+            //create some test data to use with the method
+            Int32 OrderNo = 123;
+            //invoke the method
+            Found = AnOrder.Find(OrderNo);
+            //check the OrderNo
+            if (AnOrder.CarID != "xxxxx")
+            {
+                OK = false;
+            }
+            //test to see the result is correct
+            Assert.IsTrue(OK);
+        }
+        [TestMethod]
+        public void TestStaffIDFound()
+        {
+            //create an instance of the class we want to create
+            clsOrder AnOrder = new clsOrder();
+            //boolean varible to store the result of the search
+            Boolean Found = false;
+            //boolean variable to record if data is OK (assume it is)
+            Boolean OK = true;
+            //create some test data to use with the method
+            Int32 OrderNo = 123;
+            //invoke the method
+            Found = AnOrder.Find(OrderNo);
+            //check the OrderNo
+            if (AnOrder.StaffID != "Test StaffID")
+            {
+                OK = false;
+            }
+            //test to see the result is correct
+            Assert.IsTrue(OK);
+        }
+    }
+}

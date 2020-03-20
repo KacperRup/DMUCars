@@ -1,13 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.645
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29326.143
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMUCarsBackOffice", "DMUCarsBackOffice\DMUCarsBackOffice.csproj", "{87C2C091-9E85-4AA1-A9BA-140B799B0BF6}"
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "DMUCarsFrontOffice", "DMUCarsFrontOffice\", "{F6F81DA6-6B4B-4FDB-95E2-717C7BE711C1}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.6.1"
+		ProjectReferences = "{55d2bb74-67cc-4980-9f86-fba5cd730268}|DMUCars-Classes.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_2683"
 		Debug.AspNetCompiler.PhysicalPath = "DMUCarsFrontOffice\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_2683\"
@@ -23,6 +24,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "DMUCarsFrontOffice", "DMUCa
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "2683"
+		SlnRelativePath = "DMUCarsFrontOffice\"
 		DefaultWebSiteLanguage = "Visual C#"
 	EndProjectSection
 EndProject

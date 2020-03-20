@@ -1,0 +1,75 @@
+            //create the items of test data
+            clsOrder TestItem = new clsOrder();
+            //set its properties
+            TestItem.OrderNo = "123";
+            TestItem.CustomerNo = "Some Customer";
+            TestItem.OrderDate = "01/02/2020";
+            TestItem.DeliveryDate = "03/03/2020";
+            TestItem.CarID = "Some Car ID";
+            //add the item to the test list
+            mOrderList.Add(TestItem);
+            //re-initialise the object for some new data
+            TestItem = new clsOrder();
+            //set its properties
+            TestItem.OrderNo = "123";
+            TestItem.CustomerNo = "another Customer";
+            TestItem.OrderDate = "01/02/2020";
+            TestItem.DeliveryDate = "03/03/2020";
+            TestItem.CarID = "another Car ID";
+            //add the item to the test list
+            mOrderList.Add(TestItem);
+
+------------------------------------------------------------------
+
+
+        [TestMethod]
+        public void TwoRecordsPresent()
+        {
+            //create an instance of the class we want to create
+            clsOrderCollection AllOrders = new clsOrderCollection();
+            //test to see that the two values are the same
+            Assert.AreEqual(AllOrders.Count, 2);
+        }
+------------------------------------------------------------------------
+
+        [TestMethod]
+        public void CountPropertyOK()
+        {
+            //create an instance of the class we want to create
+            clsOrderCollection AllOrders = new clsOrderCollection();
+            //create some test data to assign to the property
+            Int32 SomeCount = 2;
+            //assign the data to the property
+            AllOrders.Count = SomeCount;
+            //test too see that the two values are the same
+            Assert.AreEqual(AllOrders.Count, SomeCount);
+        }
+
+----------------------------------------------------------------------------
+
+        {
+            //var for the index
+            int Index = 0;
+            //var to store the record count
+            int RecordCount = 0;
+            //object fro data connection
+            clsDataConnection DB = new clsDataConnection();
+            //execute the stored procedure
+            DB.Execute("sproc_tblOrder_SelectAll");
+            //get the count of records
+            RecordCount = DB.Count;
+            //while there are records to process
+            while (Index < RecordCount)
+            {
+                //create a blank Order
+                clsOrder AnOrder = new clsOrder();
+                AnOrder.OrderNo = Convert.ToString(DB.DataTable.Rows[Index]["OrderNo"]);
+                AnOrder.CustomerNo = Convert.ToString(DB.DataTable.Rows[Index]["CustomerNo"]);
+                AnOrder.CarID = Convert.ToString(DB.DataTable.Rows[Index]["CarID"]);
+                AnOrder.StaffID = Convert.ToString(DB.DataTable.Rows[Index]["StaffID"]);
+                AnOrder.OrderDate = Convert.ToDateTime(DB.DataTable.Rows[Index]["OrderDate"]);
+                AnOrder.DeliveryDate = Convert.ToDateTime(DB.DataTable.Rows[Index]["DeliveryDate"]); 
+                mOrderList.Add(AnOrder);
+                //point at the next record
+                Index++;
+            }
